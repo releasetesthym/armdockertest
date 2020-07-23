@@ -13,8 +13,8 @@ jobs:
             - name: setup environment
               run: |
                 echo "Install qemu-user-static"
-                apt-get update
-                apt-get install -y --no-install-recommends qemu-user-static binfmt-support
+                sudo apt-get update
+                sudo apt-get install -y --no-install-recommends qemu-user-static binfmt-support
             - name: build docker
               run: |
                 echo "Build Docker"
