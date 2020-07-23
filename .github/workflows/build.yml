@@ -1,0 +1,30 @@
+name: build
+on:
+    push:
+        branches:
+            - master
+jobs:
+    auto_build:
+        name: auto build image
+        runs-on: ubuntu-latest
+        steps:
+            - name: checkout
+              uses: actions/checkout@master
+            - name: setup environment
+              run: |
+                echo "Install qemu-user-static"
+                apt-get update
+                apt-get install -y --no-install-recommends qemu-user-static binfmt-support
+            - name: build docker
+              run: |
+                echo "Build Docker"
+                docker build -t rpidebiansshd .
+            - name: save images backup
+              run: |
+                echo "Save Image"
+                docker save -o backup.tar rpidebiansshd
+            - name: upload artifact
+              uses: actions/upload-artifact@master
+              with:
+                name: backup
+                path: backup.tar
